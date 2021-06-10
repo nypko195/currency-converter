@@ -1,27 +1,37 @@
 <template>
    <search-currency></search-currency>
    <h2>Список валют</h2>
-   <ul> 
+   <ul v-if="isFilterList"> 
       <base-currency></base-currency>    
       <currency-item
-      v-for="cur in state.Valute"
+      v-for="cur in tickerList"
       :key="cur.ID"
       :id="cur.ID"
       :name="cur.Name"
       :charCode="cur.CharCode"
       :numCode="cur.NumCode"
       :value="cur.Value">           
-      </currency-item>  
-             
+      </currency-item>            
+   </ul>
+   <ul v-else> 
+      <base-currency></base-currency>    
+      <currency-item
+      v-for="cur in filterTickerList"
+      :key="cur.ID"
+      :id="cur.ID"
+      :name="cur.Name"
+      :charCode="cur.CharCode"
+      :numCode="cur.NumCode"
+      :value="cur.Value">           
+      </currency-item>            
    </ul>
 </template>
 
 <script>
+
 import BaseCurrency from '../Base/BaseCurrency.vue';
 import CurrencyItem from '../components/CurrencyItem.vue';
 import SearchCurrency from '../components/SearchCurrency.vue';
-
-import { ref } from 'vue';
 
 export default {    
    components: {
@@ -29,21 +39,30 @@ export default {
       CurrencyItem,
       BaseCurrency,
    },
-   setup() {
-      const state = ref({});
-
+   data() {
+      return {
+         tickerList: [],
+         filterTickerList: [],                                                
+      }
+   },
+   created() {
       fetch('https://www.cbr-xml-daily.ru/daily_json.js')
          .then(response => response.json())
-         .then(data => state.value = data);   
-
-      return {state};
-   },
-   data() {
-      return {                  
-      }
+         .then(data => this.tickerList = data.Valute)
+         const a = Object.values(this.tickerList);
+         this.tickerList = a;    
+   },   
+   computed: { 
+      isFilterList()  {
+         return this.filterTickerList.length >= 0;   
+        // return false;      
+      }  
    }, 
-   methods: {
-   },
+   watch: {
+      filterTickerList() {
+         this.tickerList.filter(ticker => ticker.CharCode.includes(this.$store.state.searchCurrency))
+      }
+   }
 }
 </script>
 

@@ -1,18 +1,17 @@
 <template>
-   <section>
+   <form>
       <label for="search">Поиск валюты</label>
-      <input type="text" :v-model="searchCurrency" placeholder="Наименование">
-   </section>
+      <input type="text" v-model="searchCurrency" placeholder="Наименование">
+   </form>
 </template>
 
 <script>
-export default { 
-   emits: ['search-valute'],
-   data() {
-      return {
-         searchCurrency: 'рубль',
+export default {    
+   computed: {
+      searchCurrency() {         
+         return this.$store.state.searchCurrency;
       }
-   },   
+   }
 }
 </script>
 
