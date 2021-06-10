@@ -3,13 +3,13 @@
       <p class="currency__name">{{ name }}</p>          
       <p class="currency__char">{{ charCode }}</p>   
       <p class="currency__num">{{ numCode }}</p>         
-      <p class="currency__value">{{ value }}</p>
+      <p class="currency__value">{{ value }}</p>      
    </li>
 </template>
 
 <script>
 export default {   
-   props: ['name', 'charCode', 'numCode', 'value'],  
+   props: ['name', 'charCode', 'numCode', 'value'],    
 }
 </script>
 

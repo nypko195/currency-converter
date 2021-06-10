@@ -1,11 +1,6 @@
 import { createStore } from 'vuex';
 
-const store = createStore({
-   state() {
-      return {
-         searchCurrency: '',         
-      }
-   }, 
+const store = createStore({   
 })
 
 export default store;
