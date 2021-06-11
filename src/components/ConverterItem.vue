@@ -1,27 +1,19 @@
-<template>
-   <div>
-      <section>
-         <h2>{{ name }}</h2>
-         <select name="Валюта">{{ CharCode }}</select>
-         <input type="number">
-      </section>
-      <button>Меняет местами</button>
-      <section>
-         <h2>{{ name }}</h2>
-         <select name="Валюта">{{ CharCode }}</select>
-         <input type="number">
-      </section>
+<template>   
+   <div>      
+      <p>{{name}}</p>
+      <p>{{value}}</p>
    </div>
 </template>
 
 <script>
-export default {   
+export default {    
    data() {
       return {
          number: '',
-         name: tickerList.Name,
+         // name: this.ticker.Name,
       }
-   }
+   },
+   props: ['name', 'value'],
 }
 </script>
 

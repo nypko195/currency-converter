@@ -43,7 +43,7 @@ export default {
       // SearchCurrency,
       CurrencyItem,
       BaseCurrency,
-   },   
+   },        
    data() {
       return {
          tickerList: [],
@@ -53,7 +53,7 @@ export default {
          arrayFilterName: [],  
          arrayFinal: [],                                          
       }
-   },
+   },    
    created() {
       fetch('https://www.cbr-xml-daily.ru/daily_json.js')
          .then(response => response.json())
