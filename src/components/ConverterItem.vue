@@ -21,16 +21,13 @@ export default {
    div {
       display: flex;
       justify-content: center;
-   }
-   section {
       border: 1px solid #333;
       padding: 10px;
       margin: 10px;
    }
-   button {
-      margin-top: 5%;
-      height: 5%;
-      width: 5%;
-      align-content: center;
+
+   p {
+      margin-left: 10px;
    }
+   
 </style>

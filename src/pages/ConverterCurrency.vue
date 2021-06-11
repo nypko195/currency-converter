@@ -1,18 +1,38 @@
 <template>
    <base-converter>
-      <select v-model="selected">
-         <option
-         v-for="ticker in tickerList"
-         :key="ticker.ID"
-         :charCode="ticker.CharCode">
-         {{ ticker.CharCode }}</option>
-      </select>
-      <converter-item
-         v-for="ticker in winList"
-         :key="ticker.ID"
-         :name="ticker.Name"
-         :value="ticker.Value">
-      </converter-item>
+      <div class="first__converter">
+         <select v-model="selectedFirst">
+            <option
+            v-for="ticker in tickerList"
+            :key="ticker.ID"
+            :charCode="ticker.CharCode">
+            {{ ticker.CharCode }}
+            </option>
+         </select>
+         <converter-item
+            v-for="ticker in arrFirst"
+            :key="ticker.ID"
+            :name="ticker.Name"
+            :value="ticker.Value">
+         </converter-item>
+      </div>
+      <button>Меняет местами</button>
+      <div class="last__converter">
+         <select v-model="selectedLast">
+            <option
+            v-for="ticker in tickerList"
+            :key="ticker.ID"
+            :charCode="ticker.CharCode">
+            {{ ticker.CharCode }}
+            </option>
+         </select>
+         <converter-item
+            v-for="ticker in arrLast"
+            :key="ticker.ID"
+            :name="ticker.Name"
+            :value="ticker.Value">
+         </converter-item>
+      </div>
    </base-converter>
 </template>
 
@@ -28,9 +48,15 @@ export default {
    data() {
       return {
          tickerList: [],         
-         selected: '',
-         winList: [],                    
+         selectedFirst: '',
+         selectedLast: '',
+         arrFirst: [], 
+         arrLast: [],
+         rub: 71.76,                   
       }
+   },
+   methods: {
+      
    },
    created() {
       fetch('https://www.cbr-xml-daily.ru/daily_json.js')
@@ -41,9 +67,13 @@ export default {
          });             
    },
    watch: {
-      selected() {
-         this.winList = this.tickerList.filter(tic => 
-         tic.CharCode ==this.selected);
+      selectedFirst() {
+         this.arrFirst = this.tickerList.filter(tic => 
+         tic.CharCode == this.selectedFirst);
+      },
+      selectedLast() {
+         this.arrLast = this.tickerList.filter(tic => 
+         tic.CharCode == this.selectedLast);
       }
    }  
 }
@@ -51,6 +81,27 @@ export default {
 
 <style scoped>
    select {
-      width: 100px;
+      width: 60px;
+   }
+   
+   div {
+      display: flex;
+      justify-content: center;
+   }
+
+   .first__converter {
+      margin: 15px;
+      border: 1px solid #333;
+      margin: 0 auto;
+   }
+
+   .last__converter {
+      margin: 15px;
+      border: 1px solid #333;
+      margin: 0 auto;
+   }
+
+   button {
+      margin: 0 15px;
    }
 </style>
