@@ -46,8 +46,7 @@ export default {
       ConverterItem,      
    },
    data() {
-      return {
-         tickerList: [],         
+      return {                  
          selectedFirst: '',
          selectedLast: '',
          arrFirst: [], 
@@ -55,16 +54,15 @@ export default {
          rub: 71.76,                   
       }
    },
-   methods: {
-      
-   },
+   methods: {      
+   }, 
+   computed: {
+      tickerList() {
+         return this.$store.state.tickerList;
+      } 
+   }, 
    created() {
-      fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-         .then(response => response.json())
-         .then(data => {
-            const values = Object.values(data.Valute);                        
-            this.tickerList = values;
-         });             
+      this.$store.dispatch('getTickers');  
    },
    watch: {
       selectedFirst() {

@@ -9,7 +9,7 @@
       <base-currency></base-currency>    
       <currency-item
       v-for="cur in tickerList"
-      :key="cur.ID"
+      :key="cur.ID + 'tl'"
       :id="cur.ID"
       :name="cur.Name"
       :charCode="cur.CharCode"
@@ -21,7 +21,7 @@
       <base-currency></base-currency>    
       <currency-item
       v-for="cur in filterTickerList"
-      :key="cur.ID"
+      :key="cur.ID + 'ftl'"
       :id="cur.ID"
       :name="cur.Name"
       :charCode="cur.CharCode"
@@ -46,38 +46,31 @@ export default {
    },        
    data() {
       return {
-         tickerList: [],
          filterTickerList: [], 
-         searchCurrency: '',
-         arrayFilterCharCode: [],   
-         arrayFilterName: [],  
-         arrayFinal: [],                                          
+         searchCurrency: '',                                           
       }
-   },    
-   created() {
-      fetch('https://www.cbr-xml-daily.ru/daily_json.js')
-         .then(response => response.json())
-         .then(data => {
-            const values = Object.values(data.Valute);                        
-            this.tickerList = values;
-         });             
-   },   
+   },     
    computed: { 
       isFilterList()  {
          return this.filterTickerList.length <= 0;   
         // return false;      
+      },
+      tickerList() {
+         return this.$store.state.tickerList;
       }  
    }, 
+   created() {
+      this.$store.dispatch('getTickers');  
+   },
    watch: {
       searchCurrency: function() {
-         this.arrayFilterCharCode = this.tickerList.filter(ticker => 
-         ticker.CharCode.toLowerCase().includes(this.searchCurrency));
+         const arrayFilterCharCode = this.$store.state.tickerList.filter(ticker => 
+         ticker.CharCode.toLowerCase().includes(this.searchCurrency.toLowerCase()));
          
-         this.arrayFilterName = this.tickerList.filter(ticker =>
-         ticker.Name.toLowerCase().includes(this.searchCurrency));
+         const arrayFilterName = this.$store.state.tickerList.filter(ticker =>
+         ticker.Name.toLowerCase().includes(this.searchCurrency.toLowerCase()));
 
-         this.arrayFinal = this.arrayFilterCharCode.concat(this.arrayFilterName);
-         this.filterTickerList = this.arrayFinal;       
+         this.filterTickerList = [...arrayFilterCharCode, ...arrayFilterName];      
       },              
    },
 }
