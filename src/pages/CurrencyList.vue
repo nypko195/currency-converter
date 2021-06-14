@@ -1,8 +1,11 @@
 <template>
    <!-- <search-currency></search-currency> -->
-   <form>
-      <label for="search">Поиск валюты</label>
-      <input type="text" v-model="searchCurrency" placeholder="Наименование">
+   <form class="search">
+      <label class="search__label">Поиск валюты</label>
+      <input type="text" 
+      v-model="searchCurrency" 
+      placeholder="Наименование валюты"
+      class="search__input">
    </form>
    <h2>Список валют</h2>
    <ul v-if="isFilterList"> 
@@ -79,5 +82,15 @@ export default {
 <style scoped>
    h2 {
       text-align: center;
+   }
+
+   .search__label {
+      font-size: 18px;
+   }
+
+   .search__input {
+      margin-left: 20px;
+      font-size: 14px;
+      padding: 5px;
    }
 </style>

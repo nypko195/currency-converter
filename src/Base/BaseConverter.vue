@@ -6,8 +6,7 @@
 
 <style scoped>
    section {
-      display: flex;
-      border: 1px solid #333;     
+      display: flex;        
       margin: 0 auto;
       padding: 20px;
    }

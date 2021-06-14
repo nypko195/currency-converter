@@ -20,14 +20,7 @@ export default {
 }
 </script>
 
-<style scoped>
-   div {
-      display: flex;
-      justify-content: center;
-      border: 1px solid #333;
-      padding: 10px;
-      margin: 10px;
-   }
+<style scoped>  
 
    p {
       margin-left: 10px;

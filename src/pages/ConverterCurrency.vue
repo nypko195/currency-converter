@@ -53,21 +53,36 @@ export default {
          arrLast: [], 
          valueFirst: '', 
          valueLast: '', 
-         inputValue: '',                      
+         inputValue: '',
+         nominalFirst: '',
+         nominalLast: '',
+         arrFirstDual: [],
+         arrLastDual: [],
+         selectedFirstDual: '',
+         selectedLastDual: '',
       }
    },
    methods: {     
       calcConverter() {
-         const result = ((this.inputValue *  100 * this.valueLast) / (100 * this.valueFirst));
-         return result;
+         const result = ((this.inputValue *  this.nominalFirst * this.valueLast) / (this.nominalLast * this.valueFirst));
+         return result.toFixed(4);
       },
       swapConverter() {
-      }      
+         this.arrFirstDual = this.arrFirst;
+         this.arrLastDual = this.arrLast;
+         this.arrFirst = this.arrLastDual;
+         this.arrLast = this.arrFirstDual; 
+         
+         this.selectedFirstDual = this.selectedFirst;
+         this.selectedLastDual = this.selectedLast;
+         this.selectedFirst = this.selectedLastDual;
+         this.selectedLast = this.selectedFirstDual;
+      },      
    }, 
    computed: {
       tickerList() {
          return this.$store.state.tickerList;
-      },                
+      },                     
    }, 
    created() {
       this.$store.dispatch('getTickers');  
@@ -77,22 +92,24 @@ export default {
          this.arrFirst = this.tickerList.filter(tic => 
          tic.CharCode == this.selectedFirst);
          
-         for(let item of this.arrFirst) {            
-            const k = 1000 / item.Value;
-            let a = (k * 100) / 1000;
-            return this.valueFirst = a;       
-         }
+         for(let item of this.arrFirst) { 
+            let nominal = item.Nominal;                    
+            const toRuble = 1000 / (item.Value / nominal);
+            let course = (toRuble * nominal) / 1000;
+            return this.valueFirst = course, this.nominalFirst = nominal;       
+         }                  
       },
       selectedLast() {
          this.arrLast = this.tickerList.filter(tic => 
          tic.CharCode == this.selectedLast);
 
-         for(let item of this.arrLast) {            
-            const k = 1000 / item.Value;
-            let a = (k * 100) / 1000;
-            return this.valueLast = a;
-         } 
-      },             
+         for(let item of this.arrLast) {             
+            let nominal = item.Nominal;                        
+            const toRuble = 1000 / (item.Value / nominal);            
+            let course = (toRuble * nominal) / 1000;           
+            return this.valueLast = course, this.nominalLast = nominal;
+         }       
+      },                  
    }  
 }
 </script>
@@ -111,19 +128,19 @@ export default {
       margin: 15px;
       border: 1px solid #333;
       margin: 0 auto;
+      padding: 5px;
    }
 
    .last__converter {
       margin: 15px;
       border: 1px solid #333;
       margin: 0 auto;
-   }
+      padding: 5px;
+   } 
 
-   button {
-      margin: 0 15px;
-   }
-
-   input { 
+   input {
+      display: block; 
       text-align: center;
-   }
+      border-bottom: 1px solid #333;
+   }   
 </style>
