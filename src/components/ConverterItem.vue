@@ -1,19 +1,22 @@
 <template>   
    <div>      
       <p>{{name}}</p>
-      <p>{{value}}</p>
-   </div>
+      <p>{{value}}</p>      
+   </div>  
 </template>
 
 <script>
 export default {    
+   props: ['name', 'value'],
    data() {
       return {
          number: '',
-         // name: this.ticker.Name,
+         inputValue: '',
       }
    },
-   props: ['name', 'value'],
+   methods: {
+
+   }
 }
 </script>
 
@@ -28,6 +31,10 @@ export default {
 
    p {
       margin-left: 10px;
+   }
+
+   input {
+      text-align: center;
    }
    
 </style>
