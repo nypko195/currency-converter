@@ -9,14 +9,10 @@
 export default {    
    props: ['name', 'value'],
    data() {
-      return {
-         number: '',
+      return {         
          inputValue: '',
       }
-   },
-   methods: {
-
-   }
+   },   
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
    <base-converter>
       <div class="first__converter">
-         <select v-model="selectedFirst">
+         <select v-model="selectedFirst" @click="inputControl">
+            <option disabled>Выберите валюту</option>
             <option
+            selected="selected"
             v-for="ticker in tickerList"
             :key="ticker.ID"
             :charCode="ticker.CharCode">
@@ -14,11 +16,18 @@
             :key="ticker.ID"
             :name="ticker.Name">                        
          </converter-item>
-         <input type="text" v-model="inputValue">
+
+         <input type="text" 
+         v-model="inputValue"
+         :class="{display}"
+         placeholder="Введите значение">
       </div>
-      <button @click="swapConverter">Меняет местами</button>
+
+      <button @click="swapConverterValue">Меняет местами</button>
+
       <div class="last__converter">
          <select v-model="selectedLast">
+            <option disabled>Выберите валюту</option>
             <option
             v-for="ticker in tickerList"
             :key="ticker.ID"
@@ -49,17 +58,21 @@ export default {
       return {                  
          selectedFirst: '',
          selectedLast: '',
+         selectedFirstDual: '',
+         selectedLastDual: '',
+
          arrFirst: [], 
          arrLast: [], 
+         arrFirstDual: [],
+         arrLastDual: [],
+
          valueFirst: '', 
          valueLast: '', 
          inputValue: '',
          nominalFirst: '',
-         nominalLast: '',
-         arrFirstDual: [],
-         arrLastDual: [],
-         selectedFirstDual: '',
-         selectedLastDual: '',
+         nominalLast: '', 
+         
+         isDisplayInput: null,
       }
    },
    methods: {     
@@ -67,7 +80,7 @@ export default {
          const result = ((this.inputValue *  this.nominalFirst * this.valueLast) / (this.nominalLast * this.valueFirst));
          return result.toFixed(4);
       },
-      swapConverter() {
+      swapConverterValue() {
          this.arrFirstDual = this.arrFirst;
          this.arrLastDual = this.arrLast;
          this.arrFirst = this.arrLastDual;
@@ -77,12 +90,20 @@ export default {
          this.selectedLastDual = this.selectedLast;
          this.selectedFirst = this.selectedLastDual;
          this.selectedLast = this.selectedFirstDual;
-      },      
+      }, 
+      inputControl() {
+         if(!this.selectedFirst == '') {           
+            this.isDisplayInput = true;
+         }
+      }           
    }, 
    computed: {
       tickerList() {
          return this.$store.state.tickerList;
-      },                     
+      },
+      display() {
+         return this.isDisplayInput == true;
+      }                      
    }, 
    created() {
       this.$store.dispatch('getTickers');  
@@ -109,7 +130,7 @@ export default {
             let course = (toRuble * nominal) / 1000;           
             return this.valueLast = course, this.nominalLast = nominal;
          }       
-      },                  
+      },                                
    }  
 }
 </script>
@@ -139,8 +160,20 @@ export default {
    } 
 
    input {
-      display: block; 
+      display: none; 
       text-align: center;
       border-bottom: 1px solid #333;
-   }   
+   } 
+
+   .display {
+      display: block;
+   } 
+   
+   button {
+      cursor: pointer;
+   }
+
+   select {
+      cursor: pointer;
+   }    
 </style>

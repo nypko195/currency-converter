@@ -31,6 +31,6 @@ export default {
       text-align: center;
    }
    li:hover {
-      background: rgb(204, 204, 204);
+      background: rgb(204, 204, 204);     
    }   
 </style>
