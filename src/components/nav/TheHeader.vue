@@ -15,13 +15,16 @@
 ul {
    list-style: none;
    display: flex; 
-   justify-content: center;  
+   justify-content: center;
 }
 li {
    background: rgb(204, 204, 204);
 }
 li:hover {   
    box-shadow: 0px 5px 10px 2px rgba(22, 93, 148, 0.45);
+}
+li:first-child {
+   margin: 0;
 }
 li:last-child {
    margin-left: 20px;

@@ -20,9 +20,11 @@ export default {
    p {
       margin-left: 10px;
    }
+   p:first-child {
+      margin-left: 0;
+   }
    .currency__name {
-      width: 50%;
-      
+      width: 50%;      
    }
    .currency__char,
    .currency__num,
@@ -32,5 +34,11 @@ export default {
    }
    li:hover {
       background: rgb(204, 204, 204);     
+   }
+
+   @media (max-width: 768px) {
+      .currency__name {
+         width: 30%;      
+      }
    }   
 </style>

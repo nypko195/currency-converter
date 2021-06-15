@@ -175,5 +175,40 @@ export default {
 
    select {
       cursor: pointer;
-   }    
+   } 
+
+   @media (max-width: 992px) {
+      button {
+         width: 74px;
+         margin: 10px auto;
+      }
+
+      .first__converter {
+         width: 370px;
+         align-items: center;
+      }
+
+      .last__converter {
+         width: 370px;
+         align-items: center;
+      } 
+
+      input {
+         padding: 5px;
+      }        
+   }
+
+   @media (max-width: 576px) {
+      
+
+      .first__converter {
+         flex-direction: column;
+         width: 260px;
+      }
+
+      .last__converter {
+         flex-direction: column;
+         width: 260px
+      }
+   }
 </style>

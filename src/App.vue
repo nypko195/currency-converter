@@ -32,5 +32,5 @@ export default {
    body {
       margin: 0;
       background-color: rgb(242, 242, 243);
-   }
+   }   
 </style>

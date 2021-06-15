@@ -94,4 +94,16 @@ export default {
       padding: 5px;
       cursor: pointer;
    }
+
+   ul {
+      padding: 0;
+   }
+
+   @media (max-width: 992px) {
+      .search {
+         display: flex;
+         justify-content: center;
+         margin: 50px 0;
+      }
+   }   
 </style>
