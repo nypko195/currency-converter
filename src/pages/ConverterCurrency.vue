@@ -86,15 +86,15 @@
 				return conversionResult.toFixed(2);
 			},
 			swapConverterValue() {
-				const arrFirstDual = this.infoFirstConverter.firstArrayConverter;
-				const arrLastDual = this.infoSecondConverter.secondArrayConverter;
-				this.infoFirstConverter.firstArrayConverter = arrLastDual;
-				this.infoSecondConverter.secondArrayConverter = arrFirstDual;
+				const temporaryArrayFirstConveter = this.infoFirstConverter.firstArrayConverter;
+				const temporaryArraySecondConveter = this.infoSecondConverter.secondArrayConverter;
+				this.infoFirstConverter.firstArrayConverter = temporaryArraySecondConveter;
+				this.infoSecondConverter.secondArrayConverter = temporaryArrayFirstConveter;
 
-				const selectedFirstDual = this.firstSelect;
-				const selectedLastDual = this.secondSelect;
-				this.firstSelect = selectedLastDual;
-				this.secondSelect = selectedFirstDual;
+				const temporaryValueFirstConverter = this.firstSelect;
+				const temporaryValueLastConverter = this.secondSelect;
+				this.firstSelect = temporaryValueLastConverter;
+				this.secondSelect = temporaryValueFirstConverter;
 			},
 			inputControl() {
 				if (!this.firstSelect == '') {
