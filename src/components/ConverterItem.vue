@@ -1,29 +1,27 @@
-<template>   
-   <div>      
-      <p>{{name}}</p>
-      <p>{{value}}</p>      
-   </div>  
+<template>
+  <div>
+    <p>{{ name }}</p>
+    <p>{{ value }}</p>
+  </div>
 </template>
 
 <script>
-export default {    
-   props: ['name', 'value'],
-   data() {
-      return {         
-         inputValue: '',
-      }
-   },   
-}
+export default {
+  props: ['name', 'value'],
+  data() {
+    return {
+      converterValue: '',
+    };
+  },
+};
 </script>
 
-<style scoped>  
+<style scoped>
+p {
+  margin-left: 10px;
+}
 
-   p {
-      margin-left: 10px;
-   }
-
-   input {
-      text-align: center;
-   }
-   
+input {
+  text-align: center;
+}
 </style>

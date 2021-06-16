@@ -39,11 +39,9 @@
 
 import BaseCurrency from '../Base/BaseCurrency.vue';
 import CurrencyItem from '../components/CurrencyItem.vue';
-// import SearchCurrency from '../components/SearchCurrency.vue';
 
 export default {    
-   components: {
-      // SearchCurrency,
+   components: {     
       CurrencyItem,
       BaseCurrency,
    },        
