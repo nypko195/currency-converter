@@ -1,7 +1,7 @@
 <template>
 	<base-converter>
 		<div class="first__converter">
-			<select v-model="firstSelect" @click="inputControl">
+			<select v-model="firstSelectedTicker" @click="inputDisplayControl">
 				<option disabled>Выберите валюту</option>
 				<option
 				selected="selected"
@@ -20,7 +20,7 @@
 			<input
 				type="text"
 				v-model="converterValueUser"
-				:class="{ displayBlock }"
+				:class="{ isDisplayBlock }"
 				placeholder="Введите значение"
 			/>
 		</div>
@@ -28,7 +28,7 @@
 		<button @click="swapConverterValue">Меняет местами</button>
 
 		<div class="last__converter">
-			<select v-model="secondSelect">
+			<select v-model="secondSelectedTicker">
 				<option disabled>Выберите валюту</option>
 				<option
 					v-for="ticker in tickerList"
@@ -60,7 +60,7 @@
 		},
 		data() {
 			return {
-				firstSelect: '',
+				firstSelectedTicker: '',
 				infoFirstConverter: {
 					valueFirst: '',
 					firstNominalConverter: '',
@@ -68,7 +68,7 @@
 					isDisplayInput: null,
 				},
 
-				secondSelect: '',
+				secondSelectedTicker: '',
 				infoSecondConverter: {
 					valueLast: '',
 					secondNomanilConveter: '',
@@ -79,11 +79,14 @@
 			};
 		},
 		methods: {
-			calcConverter() {
-				const conversionResult =
-				(this.converterValueUser * this.infoSecondConverter.firstNominalConverter * this.infoSecondConverter.valueLast) /
-				(this.infoSecondConverter.secondNomanilConveter * this.infoFirstConverter.valueFirst);
-				return conversionResult.toFixed(2);
+			calcConverter() {				
+				const { valueFirst, firstNominalConverter } = this.infoFirstConverter;
+				const { valueLast, secondNomanilConveter } = this.infoSecondConverter;
+				
+				let result = (this.converterValueUser * firstNominalConverter * valueLast ) / 
+					(secondNomanilConveter * valueFirst);
+
+				return result.toFixed(2);				
 			},
 			swapConverterValue() {
 				const temporaryArrayFirstConveter = this.infoFirstConverter.firstArrayConverter;
@@ -91,13 +94,13 @@
 				this.infoFirstConverter.firstArrayConverter = temporaryArraySecondConveter;
 				this.infoSecondConverter.secondArrayConverter = temporaryArrayFirstConveter;
 
-				const temporaryValueFirstConverter = this.firstSelect;
-				const temporaryValueLastConverter = this.secondSelect;
-				this.firstSelect = temporaryValueLastConverter;
-				this.secondSelect = temporaryValueFirstConverter;
+				const temporaryValueFirstConverter = this.firstSelectedTicker;
+				const temporaryValueLastConverter = this.secondSelectedTicker;
+				this.firstSelectedTicker = temporaryValueLastConverter;
+				this.secondSelectedTicker = temporaryValueFirstConverter;
 			},
-			inputControl() {
-				if (!this.firstSelect == '') {
+			inputDisplayControl() {
+				if (!this.firstSelectedTicker == '') {
 				this.infoFirstConverter.isDisplayInput = true;
 				}
 			},
@@ -106,7 +109,7 @@
 			tickerList() {
 				return this.$store.state.tickerList;
 			},
-			displayBlock() {
+			isDisplayBlock() {
 				return this.infoFirstConverter.isDisplayInput == true;
 			},
 		},
@@ -114,28 +117,28 @@
 			this.$store.dispatch('getTickers');
 		},
 		watch: {
-			firstSelect() {
+			firstSelectedTicker() {				
 				this.infoFirstConverter.firstArrayConverter = this.tickerList.filter(
-				(tic) => tic.CharCode == this.firstSelect
-				);
+				(tic) => tic.CharCode == this.firstSelectedTicker);
 
 				for (let item of this.infoFirstConverter.firstArrayConverter) {
 				let nominal = item.Nominal;
-				const toRuble = 1000 / (item.Value / nominal);
-				let course = (toRuble * nominal) / 1000;
+				let valueSelectedCurrency = item.Value;
+				const rateInRubles = 1000 / (valueSelectedCurrency / nominal);
+				const course = (rateInRubles * nominal) / 1000;
 				return (this.infoFirstConverter.valueFirst = course), 
-				(this.infoSecondConverter.firstNominalConverter = nominal);
+				(this.infoFirstConverter.firstNominalConverter = nominal);
 				}
 			},
-			secondSelect() {
+			secondSelectedTicker() {
 				this.infoSecondConverter.secondArrayConverter = this.tickerList.filter(
-				(tic) => tic.CharCode == this.secondSelect
-				);
+				(tic) => tic.CharCode == this.secondSelectedTicker);
 
 				for (let item of this.infoSecondConverter.secondArrayConverter) {
 				let nominal = item.Nominal;
-				const toRuble = 1000 / (item.Value / nominal);
-				let course = (toRuble * nominal) / 1000;
+				let valueSelectedCurrency = item.Value;
+				const rateInRubles = 1000 / (valueSelectedCurrency / nominal);
+				const course = (rateInRubles * nominal) / 1000;
 				return (this.infoSecondConverter.valueLast = course),
 				(this.infoSecondConverter.secondNomanilConveter = nominal);
 				}
@@ -152,6 +155,7 @@
 	div {
 		display: flex;
 		justify-content: center;
+		
 	}
 
 	.first__converter {
@@ -159,6 +163,7 @@
 		border: 1px solid #333;
 		margin: 0 auto;
 		padding: 5px;
+		flex: 0 0 40%;
 	}
 
 	.last__converter {
@@ -166,6 +171,8 @@
 		border: 1px solid #333;
 		margin: 0 auto;
 		padding: 5px;
+		flex: 0 0 40%;
+		
 	}
 
 	input {
@@ -174,12 +181,13 @@
 		border-bottom: 1px solid #333;
 	}
 
-	.displayBlock {
+	.isDisplayBlock {
 		display: block;
 	}
 
 	button {
 		cursor: pointer;
+		margin: 0 auto;
 	}
 
 	select {

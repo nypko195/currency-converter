@@ -14,24 +14,30 @@ export default {
 </script>
 
 <style scoped>
+
    li {
-      display: flex;      
+      display: flex;          
    }
-   p {
+
+   p {     
       margin-left: 10px;
    }
+
    p:first-child {
       margin-left: 0;
    }
+
    .currency__name {
       width: 50%;      
    }
+
    .currency__char,
    .currency__num,
    .currency__value {
       width: 16.6%;
-      text-align: center;
+      text-align: center;      
    }
+
    li:hover {
       background: rgb(204, 204, 204);     
    }
