@@ -68,10 +68,7 @@ export default {
       },
       tickerList() {
          return this.$store.state.tickerList;
-      },
-      // currencyNotFound() {
-      //    return !this.searchCurrency == '' && this.filterTickerList == [];     
-      // },
+      },    
    }, 
    created() {
       this.$store.dispatch('getTickers');  

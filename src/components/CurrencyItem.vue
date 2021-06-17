@@ -25,7 +25,7 @@ export default {
 
    p:first-child {
       margin-left: 0;
-   }
+   } 
 
    .currency__name {
       width: 50%;      
@@ -39,7 +39,7 @@ export default {
    }
 
    li:hover {
-      background: rgb(204, 204, 204);     
+      background: rgb(204, 204, 204);        
    }
 
    @media (max-width: 768px) {

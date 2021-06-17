@@ -19,9 +19,12 @@ ul {
 }
 li {
    background: rgb(204, 204, 204);
+   text-align: center;
 }
+
 li:hover {   
    box-shadow: 0px 5px 10px 2px rgba(22, 93, 148, 0.45);
+   font-weight: 700;
 }
 li:first-child {
    margin: 0;
@@ -41,8 +44,7 @@ a {
 .router-link-active {
    color: #101D94;
    border: 1px solid #101D94;
-   background-color: #fff;
-   box-shadow: 0px 5px 10px 2px rgba(22, 93, 148, 0.45);
+   background-color: #fff;   
 }
 </style>
 

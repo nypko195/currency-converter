@@ -18,7 +18,8 @@
 			</converter-item>
 
 			<input
-				type="text"
+				type="number"
+				min="0"
 				v-model="converterValueUser"
 				:class="{ isDisplayBlock }"
 				placeholder="Введите значение"
@@ -42,7 +43,7 @@
 				v-for="ticker in infoSecondConverter.secondArrayConverter"
 				:key="ticker.ID"
 				:name="ticker.Name"
-				:value="calcConverter()"
+				:value="calcConvertibleCurrency()"
 			>
 			</converter-item>
 		</div>
@@ -79,25 +80,25 @@
 			};
 		},
 		methods: {
-			calcConverter() {				
+			calcConvertibleCurrency() {				
 				const { valueFirst, firstNominalConverter } = this.infoFirstConverter;
 				const { valueLast, secondNomanilConveter } = this.infoSecondConverter;
 				
-				let result = (this.converterValueUser * firstNominalConverter * valueLast ) / 
+				let conversionResult = (this.converterValueUser * firstNominalConverter * valueLast ) / 
 					(secondNomanilConveter * valueFirst);
 
-				return result.toFixed(2);				
+				return conversionResult.toFixed(2);				
 			},
 			swapConverterValue() {
-				const temporaryArrayFirstConveter = this.infoFirstConverter.firstArrayConverter;
-				const temporaryArraySecondConveter = this.infoSecondConverter.secondArrayConverter;
-				this.infoFirstConverter.firstArrayConverter = temporaryArraySecondConveter;
-				this.infoSecondConverter.secondArrayConverter = temporaryArrayFirstConveter;
+				const temporaryValueFirstConveter = this.infoFirstConverter.firstArrayConverter;
+				const temporaryValueSecondConveter = this.infoSecondConverter.secondArrayConverter;
+				this.infoFirstConverter.firstArrayConverter = temporaryValueSecondConveter;
+				this.infoSecondConverter.secondArrayConverter = temporaryValueFirstConveter;
 
-				const temporaryValueFirstConverter = this.firstSelectedTicker;
-				const temporaryValueLastConverter = this.secondSelectedTicker;
-				this.firstSelectedTicker = temporaryValueLastConverter;
-				this.secondSelectedTicker = temporaryValueFirstConverter;
+				const temporaryValueFirstTicker = this.firstSelectedTicker;
+				const temporaryValueSecondTicker = this.secondSelectedTicker;
+				this.firstSelectedTicker = temporaryValueSecondTicker;
+				this.secondSelectedTicker = temporaryValueFirstTicker;
 			},
 			inputDisplayControl() {
 				if (!this.firstSelectedTicker == '') {
@@ -117,17 +118,18 @@
 			this.$store.dispatch('getTickers');
 		},
 		watch: {
-			firstSelectedTicker() {				
+			firstSelectedTicker() {						
 				this.infoFirstConverter.firstArrayConverter = this.tickerList.filter(
-				(tic) => tic.CharCode == this.firstSelectedTicker);
+				(tic) => tic.CharCode == this.firstSelectedTicker);				
 
 				for (let item of this.infoFirstConverter.firstArrayConverter) {
-				let nominal = item.Nominal;
+				let parValueCurrency = item.Nominal;
 				let valueSelectedCurrency = item.Value;
-				const rateInRubles = 1000 / (valueSelectedCurrency / nominal);
-				const course = (rateInRubles * nominal) / 1000;
-				return (this.infoFirstConverter.valueFirst = course), 
-				(this.infoFirstConverter.firstNominalConverter = nominal);
+				const rateInRubles = 1000 / (valueSelectedCurrency / parValueCurrency);
+				const amountCurrencyOfConversion = (rateInRubles * parValueCurrency) / 1000;
+
+				return (this.infoFirstConverter.valueFirst = amountCurrencyOfConversion), 
+				(this.infoFirstConverter.firstNominalConverter = parValueCurrency);
 				}
 			},
 			secondSelectedTicker() {
@@ -135,12 +137,13 @@
 				(tic) => tic.CharCode == this.secondSelectedTicker);
 
 				for (let item of this.infoSecondConverter.secondArrayConverter) {
-				let nominal = item.Nominal;
+				let parValueCurrency = item.Nominal;
 				let valueSelectedCurrency = item.Value;
-				const rateInRubles = 1000 / (valueSelectedCurrency / nominal);
-				const course = (rateInRubles * nominal) / 1000;
-				return (this.infoSecondConverter.valueLast = course),
-				(this.infoSecondConverter.secondNomanilConveter = nominal);
+				const rateInRubles = 1000 / (valueSelectedCurrency / parValueCurrency);
+				const amountCurrencyOfConversion = (rateInRubles * parValueCurrency) / 1000;
+
+				return (this.infoSecondConverter.valueLast = amountCurrencyOfConversion),
+				(this.infoSecondConverter.secondNomanilConveter = parValueCurrency);
 				}
 			},
 		},
@@ -154,8 +157,7 @@
 
 	div {
 		display: flex;
-		justify-content: center;
-		
+		justify-content: center;		
 	}
 
 	.first__converter {
@@ -188,6 +190,10 @@
 	button {
 		cursor: pointer;
 		margin: 0 auto;
+	}
+	
+	button:hover {
+		box-shadow: 0px 5px 10px 2px rgba(22, 93, 148, 0.45);
 	}
 
 	select {
